@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Warframe Alerts</string>
+    <string name="contact_me">Contact me</string>
+	<string name="ps4_alerts">PS4 Alerts</string>
+	<string name="pc_alerts">PC Alerts</string>
+	<string name="xbox_alerts">Xbox Alerts</string>
+	<string name="splash_content">splash_test</string>
+
+    <string name="ptr_pull_to_refresh">Pull to refresh</string>
+    <string name="ptr_release_to_refresh">Release to refresh</string>
+    <string name="ptr_refreshing">Refreshing…</string>
+    <string name="ptr_last_updated">Updated: %1$s</string>
+    
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    
+    <drawable name="color_by_saved">#f0ffff</drawable>
+    <drawable name="e_blue">#6699ff</drawable>
+    <drawable name="e_orango">#ff9900</drawable>
+    <drawable name="e_gray">#808080</drawable>
+    <drawable name="navajowhite">#FFDEAD</drawable>
+</resources>

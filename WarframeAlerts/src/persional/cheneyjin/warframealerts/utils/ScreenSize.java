@@ -3,6 +3,8 @@
  */
 package persional.cheneyjin.warframealerts.utils;
 
+import android.app.Activity;
+import android.util.DisplayMetrics;
 import persional.cheneyjin.warframealerts.WFAlertsMainActivity;
 
 /**
@@ -19,23 +21,17 @@ public class ScreenSize {
 	@SuppressWarnings("deprecation")
 	public ScreenSize(WFAlertsMainActivity context){
 		this.sContext = context;
-		
 		WIDTH = sContext.getWindowManager().getDefaultDisplay().getWidth();
 		HEIGHT = sContext.getWindowManager().getDefaultDisplay().getHeight();
-		/*
-		DisplayMetrics DM = new DisplayMetrics();
-		sContext.getWindowManager().getDefaultDisplay().getMetrics(DM);
-
-		WIDTH= px2dip(sContext.getApplicationContext(), sContext.getApplicationContext()
-	            .getResources().getDisplayMetrics().widthPixels);
-		HEIGHT = px2dip(sContext.getApplicationContext(), sContext.getApplicationContext()
-	            .getResources().getDisplayMetrics().heightPixels);
-	    */
 	}
-	/*
-	private final int px2dip(Context context, float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
-    }
-    */
+
+	private static DisplayMetrics dm = null;
+
+	public static DisplayMetrics getDisplayMetrics(Activity activity){
+		if(dm == null){
+			dm = new DisplayMetrics();  
+			dm = activity.getResources().getDisplayMetrics();
+		}
+		return dm;
+	}
 }

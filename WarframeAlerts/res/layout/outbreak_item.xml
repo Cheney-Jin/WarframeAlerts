@@ -5,43 +5,30 @@
     android:background="@drawable/selector_outbreak"
     android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/event_reward_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp" >
-    </ImageView>
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/event_place"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="3dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/navajowhite"
+        android:textSize="20sp"
+        android:textStyle="bold" >
+    </TextView>
 
-        <TextView
-            android:id="@+id/event_place"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:gravity="center_vertical"
-            android:textColor="@drawable/navajowhite"
-            android:textSize="20sp"
-            android:textStyle="bold" >
-        </TextView>
-
-
-        <TextView
-            android:id="@+id/event_reward"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="2dp"
-            android:gravity="center_vertical"
-            android:textColor="@drawable/navajowhite"
-            android:textSize="16sp"
-            android:textStyle="bold" >
-        </TextView>
-    </LinearLayout>
+    <TextView
+        android:id="@+id/event_reward"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="2dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/navajowhite"
+        android:textSize="16sp"
+        android:textStyle="bold" >
+    </TextView>
 
 </LinearLayout>

@@ -3,24 +3,24 @@
 
 	<item android:state_selected="true">
 		<shape>
-			<gradient android:angle="270" android:endColor="#99BD4C"
-				android:startColor="#A5D245" />
+			<gradient android:angle="270" android:endColor="#ff5500"
+				android:startColor="#990000" />
 			<size android:height="60dp" android:width="320dp" />
 		    <corners android:radius="9dp" />
 		</shape>
 	</item>
 	<item android:state_pressed="true">
 		<shape>
-			<gradient android:angle="270" android:endColor="#99BD4C"
-				android:startColor="#A5D245"/>
+			<gradient android:angle="270" android:endColor="#ff5500"
+				android:startColor="#990000"/>
 			<size android:height="60dp" android:width="320dp" />
 			<corners android:radius="9dp" />
 		</shape>
 	</item>
 	<item>
 		<shape>
-			<gradient android:angle="270" android:endColor="#FF6000"
-				android:startColor="#990000"  />
+			<gradient android:angle="270" android:endColor="#770000"
+				android:startColor="#c72121"  />
 			<size android:height="60dp" android:width="320dp" />
 			<corners android:radius="9dp" />
 		</shape>

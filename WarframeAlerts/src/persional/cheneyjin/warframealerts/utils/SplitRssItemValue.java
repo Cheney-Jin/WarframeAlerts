@@ -4,8 +4,7 @@
 package persional.cheneyjin.warframealerts.utils;
 
 /**
- * @author CheneyJin 
- *	E-mail:cheneyjin@outlook.com
+ * @author CheneyJin E-mail:cheneyjin@outlook.com
  */
 public class SplitRssItemValue {
 
@@ -16,10 +15,10 @@ public class SplitRssItemValue {
 	public void splitItemTitleInfo(boolean isAlert, String itemTitle) {
 		String[] splitValue = itemTitle.split(" - ");
 		int splitValueLength = splitValue.length;
-		String rewardGoodsChild = "";
+		StringBuffer rewardGoodsChild = new StringBuffer();
 		int splitpoint = 0;
 		if (isAlert == true) {
-			setEventRemaningTime(splitValue[splitValueLength - 1]);
+			//setEventRemaningTime(splitValue[splitValueLength - 1]);
 			setEventPlace(splitValue[splitValueLength - 2]);
 			splitpoint += 2;
 		} else {
@@ -27,9 +26,9 @@ public class SplitRssItemValue {
 			splitpoint += 1;
 		}
 		for (int i = 0; i < splitValueLength - splitpoint; i++) {
-			rewardGoodsChild += splitValue[i] + " ";
+			rewardGoodsChild.append(splitValue[i]);
 		}
-		setEventRewardGoods(rewardGoodsChild);
+		setEventRewardGoods(rewardGoodsChild.toString());
 	}
 
 	public String getEventPlace() {

@@ -2,15 +2,15 @@ package persional.cheneyjin.warframealerts.list;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import persional.cheneyjin.warframealerts.R;
 import persional.cheneyjin.warframealerts.WFAlertsMainActivity;
-import persional.cheneyjin.warframealerts.objects.EventElement;
-import persional.cheneyjin.warframealerts.objects.RssItem;
+import persional.cheneyjin.warframealerts.objs.EventElement;
+import persional.cheneyjin.warframealerts.objs.RssItem;
 import persional.cheneyjin.warframealerts.utils.Constants;
 import persional.cheneyjin.warframealerts.utils.ScreenSize;
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +22,7 @@ import android.widget.TextView;
  */
 public class PullToRefreshListViewAdapter extends android.widget.BaseAdapter {
 
-	private List<HashMap<String, Object>> 	items = new ArrayList<HashMap<String, Object>>();
+	private ArrayList<HashMap<String, Object>> 	items = new ArrayList<HashMap<String, Object>>();
 	private WFAlertsMainActivity mContext;
 	
 	private float screenWidth = 0;
@@ -42,7 +42,7 @@ public class PullToRefreshListViewAdapter extends android.widget.BaseAdapter {
 		public TextView eventRemainingTime;
 	}
 
-	public void loadData(List<HashMap<String, Object>> itemList) {
+	public void loadData(ArrayList<HashMap<String, Object>> itemList) {
 		if(itemList == null) return;
 		items = itemList;
 		// MANDATORY: Notify that the data has changed
@@ -65,19 +65,14 @@ public class PullToRefreshListViewAdapter extends android.widget.BaseAdapter {
 	}
 
 	public int getEventsType(String itemAuthor) {
-		// TODO Auto-generated method stub
 		String author = itemAuthor;
-		if ("Alert".equals(author)) {
-			return Constants.VIEWTYPE_ALERT;
-		} else if ("Invasion".equals(author)) {
-			return Constants.VIEWTYPE_INVASION;
-		} else if ("Outbreak".equals(author)) {
-			return Constants.VIEWTYPE_OUTBREAK;
-		} else {
-			return Constants.VIEWTYPE_ERROR;
-		}
+		if ("Alert".equals(author)) return Constants.VIEWTYPE_ALERT;
+        else if ("Invasion".equals(author)) return Constants.VIEWTYPE_INVASION;
+		else if ("Outbreak".equals(author)) return Constants.VIEWTYPE_OUTBREAK;
+		else return Constants.VIEWTYPE_ERROR;
 	}
 	
+	@SuppressLint("InflateParams")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
@@ -87,7 +82,7 @@ public class PullToRefreshListViewAdapter extends android.widget.BaseAdapter {
 		int viewType = getEventsType(record.get(RssItem.AUTHOR).toString());
 		if(viewType == Constants.VIEWTYPE_ALERT){
 			rowView = inflater.inflate(R.layout.alert_item, null);
-			rowView.findViewById(R.id.content).getLayoutParams().width=(int) (screenWidth*0.75);
+			rowView.findViewById(R.id.content).getLayoutParams().width=(int) (screenWidth * 0.75);
 
 			viewHolder.eventPlace = (TextView) rowView.findViewById(R.id.event_place);
 			viewHolder.eventDescription = (TextView) rowView.findViewById(R.id.event_description);
@@ -119,42 +114,4 @@ public class PullToRefreshListViewAdapter extends android.widget.BaseAdapter {
 		
 		return rowView;
 	}
-	/*
-	 * 
-	 * public class ViewHolder { //public TextView guid; //public TextView
-	 * author; //public TextView title; //public TextView description; //public
-	 * TextView pubDate; //public TextView wf_faction; //public TextView
-	 * wf_expiry; public TextView eventPlace; public TextView eventTask; public
-	 * TextView eventReward; public TextView remainingTime; }
-	 * 
-	 * if(viewType == Constants.VIEWTYPE_ALERT){ rowView =
-	 * inflater.inflate(R.layout.list_item, null); //viewHolder.eventImg =
-	 * (ImageView) rowView.findViewById(R.id.event_reward_img);
-	 * viewHolder.eventPlace =(TextView) rowView.findViewById(R.id.event_place);
-	 * viewHolder.eventDescription = (TextView)
-	 * rowView.findViewById(R.id.event_description); viewHolder.eventReward =
-	 * (TextView) rowView.findViewById(R.id.event_reward);
-	 * viewHolder.eventRemainingTime = (TextView)
-	 * rowView.findViewById(R.id.event_remaining_time);
-	 * rowView.findViewById(R.id.event_task).setVisibility(View.GONE);
-	 * rowView.setTag(viewHolder);
-	 * 
-	 * ViewHolder holder = (ViewHolder) rowView.getTag();
-	 * //holder.eventImg.setBackgroundResource(R.id.);
-	 * holder.eventPlace.setText(splitAlertValue.getEventPlace());
-	 * holder.eventDescription
-	 * .setText(record.get(RssItem.DESCRIPTION).toString());
-	 * holder.eventReward.setText(splitAlertValue.getEventRewardGoods());
-	 * holder.
-	 * eventRemainingTime.setText(splitAlertValue.getEventRemaningTime());
-	 * 
-	 * } else if(viewType == Constants.VIEWTYPE_INVASION){
-	 * 
-	 * } else if(viewType == Constants.VIEWTYPE_OUTBREAK){
-	 * 
-	 * } else{
-	 * 
-	 * }
-	 */
-
 }

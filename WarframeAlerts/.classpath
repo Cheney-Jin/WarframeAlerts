@@ -10,6 +10,5 @@
 	<classpathentry exported="true" kind="lib" path="F:/WorkSpace adt/WarframeAlerts/libs/cpdetector_1.0.10.jar"/>
 	<classpathentry exported="true" kind="lib" path="F:/WorkSpace adt/WarframeAlerts/libs/jargs-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="F:/WorkSpace adt/WarframeAlerts/libs/android-support-v4.jar"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/appcompat_v7"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

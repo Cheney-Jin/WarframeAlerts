@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Warframe Alerts</string>
+    <string name="app_name">WarframeAlerts</string>
     <string name="contact_me">Contact me</string>
 	<string name="ps4_alerts">PS4 Alerts</string>
 	<string name="pc_alerts">PC Alerts</string>
@@ -16,9 +16,5 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     
-    <drawable name="color_by_saved">#f0ffff</drawable>
-    <drawable name="e_blue">#6699ff</drawable>
-    <drawable name="e_orango">#ff9900</drawable>
-    <drawable name="e_gray">#808080</drawable>
-    <drawable name="navajowhite">#FFDEAD</drawable>
+
 </resources>

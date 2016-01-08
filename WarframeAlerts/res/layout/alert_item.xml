@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="6dp"
         android:orientation="vertical" >
 
         <TextView
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="8dp"
-            android:textColor="@drawable/navajowhite"
+            android:textColor="@color/navajowhite"
             android:textSize="20sp"
             android:textStyle="bold" >
         </TextView>
@@ -28,10 +28,10 @@
             android:id="@+id/event_description"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="17dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="2dp"
-            android:textColor="@drawable/navajowhite"
+            android:textColor="@color/navajowhite"
             android:textSize="12sp"
             android:textStyle="bold" >
         </TextView>
@@ -43,7 +43,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="2dp"
-            android:textColor="@drawable/navajowhite"
+            android:textColor="@color/navajowhite"
             android:textSize="16sp"
             android:textStyle="bold" >
         </TextView>
@@ -60,7 +60,7 @@
             android:id="@+id/event_remaining_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@drawable/navajowhite"
+            android:textColor="@color/navajowhite"
             android:textSize="15sp"
             android:textStyle="bold" >
         </TextView>

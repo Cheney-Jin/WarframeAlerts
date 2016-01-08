@@ -20,7 +20,7 @@ public class SplashScreen extends Activity{
 			public void run() {
 				startActivity(new Intent(SplashScreen.this, WFAlertsMainActivity.class));
 			}
-		}, 500L);
+		}, 800L);
 	}
 
 	@Override

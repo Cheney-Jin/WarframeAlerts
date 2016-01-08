@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="theme">#ff00bfff</color>
+    <color name="title">#ff333333</color>
+    <color name="frame">#61a716</color>
+    <color name="divider">#e6e6e6</color>
+    <color name="color_by_saved">#f0ffff</color>
+    <color name="e_red">#aa2121</color>
+    <color name="e_blue">#6699ff</color>
+    <color name="e_orango">#ff9900</color>
+    <color name="e_gray">#808080</color>
+    <color name="f_gray">#858585</color>
+    <color name="navajowhite">#FFDEAD</color>
+    <color name="white">#ffffff</color>
+    <color name="dark_green">#416113</color>
+    <color name="light_green">#61a716</color>
+	<color name="black">#000000</color>
+	<color name="e_black">#262626</color>
+</resources>

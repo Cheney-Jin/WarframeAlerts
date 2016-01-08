@@ -2,8 +2,8 @@ package persional.cheneyjin.warframealerts.list;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import persional.cheneyjin.warframealerts.R;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
@@ -45,6 +45,7 @@ import android.widget.TextView;
  * @author Erik Wallentinsen <dev+ptr@erikw.eu>
  * @version 1.3.0
  */
+@SuppressLint("ClickableViewAccessibility")
 public class PullToRefreshListView extends ListView{
 
     private static final float PULL_RESISTANCE                 = 1.7f;
@@ -82,7 +83,8 @@ public class PullToRefreshListView extends ListView{
     private String  releaseToRefreshText;
     private String  refreshingText;
     private String  lastUpdatedText;
-    private SimpleDateFormat lastUpdatedDateFormat = new SimpleDateFormat("dd/MM HH:mm");
+    @SuppressLint("SimpleDateFormat")
+	private SimpleDateFormat lastUpdatedDateFormat = new SimpleDateFormat("dd/MM HH:mm");
 
     private float                   previousY;
     private int                     headerPadding;
@@ -236,9 +238,10 @@ public class PullToRefreshListView extends ListView{
         }
     }
 
-    private void init(){
+    @SuppressLint("InflateParams")
+	private void init(){
         setVerticalFadingEdgeEnabled(false);
-
+		this.setDivider(this.getResources().getDrawable(R.drawable.divider_space));//CHANGE
         headerContainer = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.ptr_header, null);
         header = (RelativeLayout) headerContainer.findViewById(R.id.ptr_id_header);
         text = (TextView) header.findViewById(R.id.ptr_id_text);

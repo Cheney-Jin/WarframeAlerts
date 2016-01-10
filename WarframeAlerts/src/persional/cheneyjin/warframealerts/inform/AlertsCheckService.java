@@ -3,6 +3,7 @@ package persional.cheneyjin.warframealerts.inform;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -12,7 +13,6 @@ import org.xml.sax.SAXException;
 import persional.cheneyjin.warframealerts.R;
 import persional.cheneyjin.warframealerts.handler.RssFeed;
 import persional.cheneyjin.warframealerts.http.RssFeedSAXParser;
-import persional.cheneyjin.warframealerts.objs.EventElement;
 import persional.cheneyjin.warframealerts.objs.RssItem;
 import persional.cheneyjin.warframealerts.utils.Constants;
 import android.app.Notification;
@@ -35,7 +35,7 @@ public class AlertsCheckService extends Service {
 	
 	private NotificationManager messageNotificatioManager = null;
 	
-	private ArrayList<HashMap<String, Object>> oldRssList;
+	private ArrayList<HashMap<String, Object>> oldRssList = new ArrayList<HashMap<String, Object>>();
 	
 	private int messageNotificationID = 1000;
 	
@@ -48,14 +48,18 @@ public class AlertsCheckService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		ServiceisRunning = true;
-		Log.i("SERVICE STARTING!", "SERVICE STARTING!");
-		Log.i("RSS TYPE", Constants.RSS_PLATFORM);
+		//Log.i("SERVICE STARTING!", "SERVICE STARTING!");
+		//Log.i("RSS TYPE", Constants.RSS_PLATFORM);
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		oldRssList = clearOutBreak((ArrayList<HashMap<String, Object>>) intent.getSerializableExtra("rssItemsList"));
+		ArrayList<HashMap<String, Object>> cob = clearOutBreak((ArrayList<HashMap<String, Object>>) intent.getSerializableExtra("rssItemsList"));
+		if(cob != null){
+			oldRssList.addAll(cob);
+		}
+		//Log.i("ONSTARTCOMMAND", "ONSTARTCOMMAND");
 		messageNotification = new Notification();
 		messageNotification.icon = R.drawable.ic_launcher;
 		messageNotification.tickerText = "Warframe Inform";
@@ -69,7 +73,7 @@ public class AlertsCheckService extends Service {
 		messageThread.isRunning = true;
 		messageThread.start();
 		startForeground(0, messageNotification);
-		return super.onStartCommand(intent, flags, startId);
+		return super.onStartCommand(intent, START_REDELIVER_INTENT, startId);
 	}
 
 	class MessageThread extends Thread {
@@ -78,12 +82,12 @@ public class AlertsCheckService extends Service {
 		public void run() {
 			while(true){
 				try {
-					Thread.sleep(10000);
-					ACServiceAsnycTask ascTask = new ACServiceAsnycTask();
-					ascTask.execute(3000);
+					Thread.sleep(350000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				ACServiceAsnycTask ascTask = new ACServiceAsnycTask();
+				ascTask.execute(5000);
 			}
 		}
 	}
@@ -91,9 +95,7 @@ public class AlertsCheckService extends Service {
 	class ACServiceAsnycTask extends AsyncTask<Object, Object, Object>{
 		
 		private RssFeed	rssFeed;
-		private ArrayList<HashMap<String, Object>> newRssList;
 		private StringBuilder updateMessage = null;
-		private int[] alertsCount = null;
 		
 		@Override
 		protected void onPreExecute() {
@@ -101,18 +103,21 @@ public class AlertsCheckService extends Service {
 			Log.i("RSS Platform: ", Constants.RSS_PLATFORM +"//"+Constants.getRssUrl(Constants.RSS_PLATFORM));
 			super.onPreExecute();
 			updateMessage = new StringBuilder();
-			alertsCount = new int[2];
 		}
 
 		@Override
 		protected Object doInBackground(Object... arg0) {
 			try {
+				int[] alertsCount = new int[2];
 				rssFeed = new RssFeedSAXParser().getFeed(Constants.getRssUrl(Constants.RSS_PLATFORM));
-				newRssList = clearOutBreak(rssFeed.getAll());
+				ArrayList<HashMap<String, Object>> newRssList = clearOutBreak(rssFeed.getAll());
 				alertsCount = checkUpdate(newRssList);
 				oldRssList.clear();
-				oldRssList = newRssList;
-				if (alertsCount[0] == 0 && alertsCount[1] == 0) return null;
+				oldRssList.addAll(newRssList);
+				if(alertsCount == null) return null;
+				if(alertsCount[0] == 0 && alertsCount[1] == 0) return null;
+				if (alertsCount[0] != 0) updateMessage.append("Update: ").append(String.valueOf(alertsCount[0])).append(" Alert(s) ");
+				if (alertsCount[1] != 0) updateMessage.append(String.valueOf(alertsCount[1]).toString()).append(" Invasion(s) ");
 			} catch (ParserConfigurationException e) {
 				e.printStackTrace();
 			} catch (SAXException e) {
@@ -120,9 +125,6 @@ public class AlertsCheckService extends Service {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			if (alertsCount[0] != 0) updateMessage.append("Update: ").append(String.valueOf(alertsCount[0])).append(" Alert(s) ");
-			if (alertsCount[1] != 0) updateMessage.append(String.valueOf(alertsCount[1]).toString()).append(" Invasion(s) ");
-			Log.i("MESSAGE IS:", updateMessage.toString());
 			publishProgress(0);
 			return arg0;
 		}
@@ -155,31 +157,18 @@ public class AlertsCheckService extends Service {
 	private int[] checkUpdate(ArrayList<HashMap<String, Object>> rssList) {
 		int[] updateFlags = new int[2];
 		if (oldRssList == null || oldRssList.isEmpty()) return null;
-		Iterator<HashMap<String,Object>> newIte = rssList.iterator();
-		Iterator<HashMap<String,Object>> oldIte = oldRssList.iterator();
-		while(newIte.hasNext()){
-			HashMap<String,Object> newItem = newIte.next();
-			String newItemAuthor = newItem.get(RssItem.AUTHOR).toString();
-			String newItemReward = newItem.get(EventElement.EVENT_REWARD).toString();
-			while(oldIte.hasNext()){
-				HashMap<String,Object> oldItem = oldIte.next();
-				String oldItemAuthor = oldItem.get(RssItem.AUTHOR).toString();
-				String oldItemReward = oldItem.get(EventElement.EVENT_REWARD).toString();
-				if (newItemAuthor.equals(oldItemAuthor)&& newItemReward.equals(oldItemReward)){
-					oldIte.remove();newIte.remove();
+		HashSet<HashMap<String,Object>> hashSet = new HashSet<HashMap<String, Object>>();
+		hashSet.addAll(oldRssList);
+		for(int i = 0; i< rssList.size();i++){
+			HashMap<String,Object> item = rssList.get(i);
+			boolean isSame = hashSet.add(item);
+			if(isSame != false){
+				String author = item.get(RssItem.AUTHOR).toString();
+				if(author.equals(Constants.RSS_ALERT)){
+					updateFlags[0]++;
+				}else{
+					updateFlags[1]++;
 				}
-				oldIte = oldRssList.iterator();
-				newIte = rssList.iterator();
-			}
-		}
-		Iterator<HashMap<String,Object>> surplusIte = rssList.iterator();
-		while(surplusIte.hasNext()){
-			HashMap<String,Object> surItem = surplusIte.next();
-			String surAuthor = surItem.get(RssItem.AUTHOR).toString();
-			if(surAuthor.equals(Constants.RSS_ALERT)){
-				updateFlags[0]++;
-			}else{
-				 updateFlags[1]++;
 			}
 		}
 		return updateFlags;
@@ -192,3 +181,25 @@ public class AlertsCheckService extends Service {
 		super.onDestroy();
 	}
 }
+
+/*
+Iterator<HashMap<String, Object>> newIte = rssList.iterator();
+while(newIte.hasNext()){
+	HashMap<String, Object> newItem = newIte.next();
+	Iterator<HashMap<String, Object>> oldIte = oldRssList.iterator();
+	while(oldIte.hasNext()){
+		HashMap<String, Object> oldItem = oldIte.next();
+		if(newItem.get(RssItem.AUTHOR).equals(oldItem.get(RssItem.AUTHOR)) 
+				&& newItem.get(EventElement.EVENT_REWARD).equals(oldItem.get(EventElement.EVENT_REWARD))){
+			newIte.remove();
+		}
+	}
+}
+Log.i("rssList", String.valueOf(rssList.size()));
+for(int i = 0; i < rssList.size(); i++){
+	if(rssList.get(i).get(RssItem.AUTHOR).equals(Constants.RSS_ALERT)){
+		updateFlags[0]++;
+	}else{
+		updateFlags[1]++;
+	}
+}*/

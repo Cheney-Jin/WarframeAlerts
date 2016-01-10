@@ -24,8 +24,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -77,10 +75,10 @@ public class WFAlertsMainActivity extends Activity {
 					public void run() {
 						if(ptrDisable != true){
 							lRssAsyncTask = new LoadRssAsyncTask();
-							lRssAsyncTask.execute(1100);	
+							lRssAsyncTask.execute(1150);	
 						}
 					}
-				}, 1150);
+				}, 1200);
 			}
 		});
     	eventsListView.setAdapter(ptrAdapter);
@@ -159,7 +157,7 @@ public class WFAlertsMainActivity extends Activity {
 	        intent.setAction("persional.cheneyjin.warframealerts.inform.AlertsCheckService");
 			if(AlertsCheckService.ServiceisRunning != false){
 		        stopService(intent);
-		        Log.i("SERVICE RESTART!", "SERVICE RESTART!");
+		        //Log.i("SERVICE RESTART!", "SERVICE RESTART!");
 			}
 	        intent.putExtra("rssItemsList", rssItemsList);
 	        startService(intent);
@@ -208,7 +206,7 @@ public class WFAlertsMainActivity extends Activity {
     	return true;
 	}
     
-    @Override
+/*    @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         // menuUtils.createTwoDispatcher(event);
     	if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
@@ -218,7 +216,7 @@ public class WFAlertsMainActivity extends Activity {
             startActivity(intent);
         }
         return false;
-    }
+    }*/
     
 	@Override
 	protected void onDestroy() {

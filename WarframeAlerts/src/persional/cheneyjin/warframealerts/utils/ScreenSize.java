@@ -8,30 +8,43 @@ import android.util.DisplayMetrics;
 import persional.cheneyjin.warframealerts.WFAlertsMainActivity;
 
 /**
- * @author CheneyJin 
- *	E-mail:cheneyjin@outlook.com
+ * @author CheneyJin E-mail:cheneyjin@outlook.com
  */
 public class ScreenSize {
-	
-	public float WIDTH = 0;
-	public float HEIGHT = 0;
-	
-	private WFAlertsMainActivity	sContext;
-	
+	private float width = 0;
+	private float height = 0;
+
+	private WFAlertsMainActivity sContext;
+
 	@SuppressWarnings("deprecation")
-	public ScreenSize(WFAlertsMainActivity context){
+	public ScreenSize(WFAlertsMainActivity context) {
 		this.sContext = context;
-		WIDTH = sContext.getWindowManager().getDefaultDisplay().getWidth();
-		HEIGHT = sContext.getWindowManager().getDefaultDisplay().getHeight();
+		width = sContext.getWindowManager().getDefaultDisplay().getWidth();
+		height = sContext.getWindowManager().getDefaultDisplay().getHeight();
 	}
 
-	private static DisplayMetrics dm = null;
-
-	public static DisplayMetrics getDisplayMetrics(Activity activity){
-		if(dm == null){
-			dm = new DisplayMetrics();  
+	public DisplayMetrics getDisplayMetrics(Activity activity) {
+		DisplayMetrics dm = null;
+		if (dm == null) {
+			// dm = new DisplayMetrics();
 			dm = activity.getResources().getDisplayMetrics();
 		}
 		return dm;
+	}
+
+	public float getWidth() {
+		return width;
+	}
+
+	public void setWidth(float width) {
+		this.width = width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
+	public void setHeight(float height) {
+		this.height = height;
 	}
 }

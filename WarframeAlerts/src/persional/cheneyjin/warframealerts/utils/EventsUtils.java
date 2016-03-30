@@ -12,7 +12,7 @@ public class EventsUtils {
 	private SharedPreferences.Editor editor;
 
 	public EventsUtils(Context context) {
-		warframePlatformType = context.getSharedPreferences( "Warframe_Platform_type", Context.MODE_PRIVATE);
+		warframePlatformType = context.getSharedPreferences("Warframe_Platform_type", Context.MODE_PRIVATE);
 	}
 
 	public void savePlatformType(String platformType) {

@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+
 /**
- * @author CheneyJin 
- *	E-mail:cheneyjin@outlook.com
+ * @author CheneyJin E-mail:cheneyjin@outlook.com
  */
-public class SplashScreen extends Activity{
+public class SplashScreen extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

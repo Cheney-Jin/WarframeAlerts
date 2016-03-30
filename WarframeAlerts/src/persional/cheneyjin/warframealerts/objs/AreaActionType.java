@@ -4,8 +4,7 @@
 package persional.cheneyjin.warframealerts.objs;
 
 /**
- * @author CheneyJin 
- *	E-mail:cheneyjin@outlook.com
+ * @author CheneyJin E-mail:cheneyjin@outlook.com
  */
 public class AreaActionType {
 	public final static String SURVIVAL = "Survival|生存";
@@ -31,9 +30,9 @@ public class AreaActionType {
 	public final static String INTERCEPT = "Intercept|占领";
 
 	public final static String DECEPTION = "Deception|欺骗";
-			
+
 	public final static String SPY = "Spy|间谍";
-	
+
 	public final static String PVP = "PVP|PVP";
-	
+
 }

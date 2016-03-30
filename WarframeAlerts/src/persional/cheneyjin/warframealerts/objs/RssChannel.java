@@ -1,7 +1,7 @@
 package persional.cheneyjin.warframealerts.objs;
+
 /**
- * @author CheneyJin 
- *	E-mail:cheneyjin@outlook.com
+ * @author CheneyJin E-mail:cheneyjin@outlook.com
  */
 public class RssChannel {
 	private String rss_title = "";
@@ -9,7 +9,6 @@ public class RssChannel {
 	private String rss_description = "";
 	private String rss_language = "";
 	private String rss_ttl = "";
-	
 
 	public String getRss_title() {
 		return rss_title;

@@ -5,12 +5,18 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import android.annotation.SuppressLint;
-
 public class NowDateTime {
 	private String nowDate;
 	private String expiryDate;
-	private SimpleDateFormat dateFormat;
+	private static SimpleDateFormat dateFormat;
+	private static Calendar calTime;
+	private final int mintue = 60000;
+	private Date localTime, expiryTime;
+
+	static {
+		calTime = Calendar.getInstance();
+		dateFormat = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
+	}
 
 	enum Months {
 		Jan("Jan", "01"), Feb("Feb", "02"), Mar("Mar", "03"), Apr("Apr", "04"), May("May", "05"), 
@@ -24,7 +30,7 @@ public class NowDateTime {
 			this.month = month;
 			this.index = index;
 		}
-		
+
 		public String getMonth() {
 			return month;
 		}
@@ -42,26 +48,18 @@ public class NowDateTime {
 		}
 	}
 
-	@SuppressLint("SimpleDateFormat")
-	public
-	NowDateTime() {
-		dateFormat = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
+	public NowDateTime() {
 		setNowDate(dateFormat.format(new java.util.Date()));
 	}
-	@SuppressLint("SimpleDateFormat")
-	public
-	NowDateTime(String expiryTime){
-		dateFormat = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
-		setNowDate(dateFormat.format(new java.util.Date()));	
-		setExpiryDate(expiryTime);
-	}
+
 	public String formatExpiry(String time) {
 		String[] cutAct1 = time.split("\\+");
 		String[] cutAct2 = cutAct1[0].split(", ");
 		String[] expiryTimeElems = cutAct2[1].split(" ");
 		for (Months m : Months.values())
-			if (m.getMonth().equals(expiryTimeElems[1])) expiryTimeElems[1] = m.index;
-		StringBuffer sb = new StringBuffer();
+			if (m.getMonth().equals(expiryTimeElems[1]))
+				expiryTimeElems[1] = m.index;
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < expiryTimeElems.length; i++)
 			sb.append(expiryTimeElems[i]).append(" ");
 		setExpiryDate(sb.toString());
@@ -69,30 +67,32 @@ public class NowDateTime {
 	}
 
 	public String timeDiff() throws ParseException {
-		Date localTime = dateFormat.parse(nowDate); 
-		Date expiryTime = dateFormat.parse(expiryDate);
-		
-		Calendar calTime = Calendar.getInstance();
+		localTime = dateFormat.parse(nowDate);
+		expiryTime = dateFormat.parse(expiryDate);
 		calTime.setTime(localTime);
-		calTime.add(Calendar.HOUR,-8);
+		calTime.add(Calendar.HOUR, -8);
 		String serviceTime = dateFormat.format(calTime.getTime());
-		long diffMinutes = (expiryTime.getTime() - dateFormat.parse(serviceTime).getTime())/(1000*60);
-		if (diffMinutes >= 60 && diffMinutes < 1440) return diffMinutes / 60 + "h";
-		else if (diffMinutes >= 1440) return diffMinutes / 1440 + "d";
-		else return String.valueOf(diffMinutes) + "m";
+		long diffMinutes = (expiryTime.getTime() - dateFormat.parse(serviceTime).getTime()) / mintue;
+		if (diffMinutes >= 60 && diffMinutes < 1440)
+			return diffMinutes / 60 + "h";
+		else if (diffMinutes >= 1440)
+			return diffMinutes / 1440 + "d";
+		else
+			return diffMinutes + "m";
 	}
 
 	public String getNowDate() {
 		return nowDate;
 	}
 
-	private void setNowDate(String nowDate) {
-		this.nowDate = nowDate;
+	private void setNowDate(String date) {
+		this.nowDate = date;
 	}
 
 	public String getExpiryDate() {
 		return expiryDate;
 	}
+
 	public void setExpiryDate(String expiryDate) {
 		this.expiryDate = expiryDate;
 	}

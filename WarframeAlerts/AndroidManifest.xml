@@ -33,7 +33,7 @@
             android:icon="@drawable/title_icon"
             android:label="@string/app_name">
         </activity>
-        <service android:name=".inform.AlertsCheckService">
+        <service android:name=".inform.AlertsCheckService" android:permission="android.permission.INTERNET" android:process="system">
         	<intent-filter android:priority="800">
         		<action android:name="persional.cheneyjin.warframealerts.inform.AlertsCheckService" />
             </intent-filter>

@@ -11,6 +11,7 @@ import org.xml.sax.SAXException;
 import persional.cheneyjin.warframealerts.handler.RssFeed;
 import persional.cheneyjin.warframealerts.http.RssFeedSAXParser;
 import persional.cheneyjin.warframealerts.inform.AlertsCheckService;
+import persional.cheneyjin.warframealerts.inform.PollingUtils;
 import persional.cheneyjin.warframealerts.list.PullToRefreshListView;
 import persional.cheneyjin.warframealerts.list.PullToRefreshListView.OnRefreshListener;
 import persional.cheneyjin.warframealerts.list.PullToRefreshListViewAdapter;
@@ -41,12 +42,12 @@ public class WFAlertsMainActivity extends Activity {
 	private EventsUtils eventsUtils;
 	private PullToRefreshListView eventsListView;
 	private PullToRefreshListViewAdapter ptrAdapter;
-	public static  ArrayList<HashMap<String, Object>> rssItemsList;
+	public static ArrayList<HashMap<String, Object>> rssItemsList;
 	private RssFeedSAXParser rssFAXPer;
-	private Intent serviceIntent; 
+	private Intent serviceIntent;
 	private boolean isOptionChanged = false;
 	private boolean ptrDisable = false;
-	private boolean ACService = false;
+	private boolean acService = false;
 
 	private void init() {
 		eventsUtils = new EventsUtils(this);
@@ -146,14 +147,11 @@ public class WFAlertsMainActivity extends Activity {
 	}
 
 	void StartACService() {
-		if (ACService == false) {
-			ACService = true;
-			serviceIntent = new Intent(this, AlertsCheckService.class);
-			serviceIntent.setAction("persional.cheneyjin.warframealerts.inform.AlertsCheckService");
-		/*	if (AlertsCheckService.ServiceisRunning != false) {
-				stopService(serviceIntent);
-			}
-			startService(serviceIntent);*/
+		if (acService == false) {
+			acService = true;
+			//serviceIntent = new Intent(this, AlertsCheckService.class);
+			//serviceIntent.setAction("persional.cheneyjin.warframealerts.inform.AlertsCheckService");
+			PollingUtils.startPollingService(this, 5, AlertsCheckService.class, AlertsCheckService.ACTION);
 		}
 	}
 
@@ -174,9 +172,8 @@ public class WFAlertsMainActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
-		if (id == R.id.contact_me) {
-			Toast.makeText(WFAlertsMainActivity.this, Constants.CONTACT_ME, Toast.LENGTH_LONG).show();
-		} else {
+		if (id == R.id.contact_me) Toast.makeText(WFAlertsMainActivity.this, Constants.CONTACT_ME, Toast.LENGTH_LONG).show();
+		else {
 			if (id == R.id.ps4_alerts_select) eventsUtils.savePlatformType(Constants.WARFRAME_ALERTS_PLATFORM_PS4);
 			if (id == R.id.pc_alerts_select) eventsUtils.savePlatformType(Constants.WARFRAME_ALERTS_PLATFORM_PC);
 			if (id == R.id.xbox_alerts_select) eventsUtils.savePlatformType(Constants.WARFRAME_ALERTS_PLATFORM_XBOX);
@@ -187,28 +184,29 @@ public class WFAlertsMainActivity extends Activity {
 
 	private void afterSavePlatformType() {
 		isOptionChanged = true;
-		// ACService should define ServiceStop function in AlertsCheckService. 
-		// Then the follow boolean elem will be instead of ServiceStop()  
-		ACService = false;
-		
+		// ACService should define ServiceStop function in AlertsCheckService.
+		// Then the follow boolean elem will be instead of ServiceStop()
+		acService = false;
+
 		Toast.makeText(WFAlertsMainActivity.this, Constants.PLEASE_REFRESH, Toast.LENGTH_LONG).show();
 	}
 
-	public boolean onKeyDown(int keyCode, KeyEvent event) {      
-	    if (keyCode == KeyEvent.KEYCODE_BACK) {      
-	        Intent intent = new Intent(Intent.ACTION_MAIN);      
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);      
-	        intent.addCategory(Intent.CATEGORY_HOME);      
-	        startActivity(intent);      
-	        return true;      
-	    }      
-	    return super.onKeyDown(keyCode, event);      
-	}   
-	
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intent.addCategory(Intent.CATEGORY_HOME);
+			startActivity(intent);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		//SERVICE WARNING!
-		if(serviceIntent != null) stopService(serviceIntent);
+		// SERVICE WARNING!
+		if (serviceIntent != null)
+			stopService(serviceIntent);
 	}
 }

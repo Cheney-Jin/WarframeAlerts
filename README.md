@@ -12,5 +12,4 @@ In this app, i use simple UI to display warframe infomation:
 
 
 You can pull-down to refresh the alerts information.
-You can use settings to change the alerts information type with pc,ps4,xbox one.
                                                                       -------CheneyJin<cheneyjin@outlook.com>

@@ -1,6 +1,7 @@
 # WarframeAlerts
 # warframe alerts on android phone
 
+![screenshot](./Screenshot_persional.cheneyjin.warframealerts.png)
 It loads warframe alerts information to your phone with three warframe platforms (PC, PS4, XBOX ONE).
 In this app, i use simple UI to display warframe infomation:
   red items is alerts,

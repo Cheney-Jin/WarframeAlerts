@@ -49,9 +49,8 @@ public class AlertsCheckService extends Service {
 	// 初始化通知栏配置
 	private void initNotifiManager() {
 		mManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		int icon = R.drawable.ic_launcher;
 		mNotification = new Notification();
-		mNotification.icon = icon;
+		mNotification.icon = R.drawable.ic_launcher;
 		mNotification.tickerText = "New alerts/invasions informations!";
 		mNotification.defaults |= Notification.DEFAULT_SOUND;
 		mNotification.flags = Notification.FLAG_AUTO_CANCEL;
@@ -77,7 +76,8 @@ public class AlertsCheckService extends Service {
 				RssFeed rssFeed = rssFAXPer.getFeed(Constants.getRssUrl(Constants.RSS_PLATFORM));
 				newAlertsList.addAll(removeOutbreak(rssFeed.getAll()));
 				equalsAlerts(newAlertsList);
-				if (getMessageInfo() != null) showNotification();
+				if (getMessageInfo() != null)
+					showNotification();
 			} catch (ParserConfigurationException e) {
 				e.printStackTrace();
 			} catch (SAXException e) {
@@ -93,7 +93,8 @@ public class AlertsCheckService extends Service {
 		Iterator<HashMap<String, Object>> eListIterator = eList.iterator();
 		while (eListIterator.hasNext()) {
 			HashMap<String, Object> e = eListIterator.next();
-			if (e.get(RssItem.AUTHOR).toString().equals(Constants.RSS_OUTBREAK)) eListIterator.remove();
+			if (e.get(RssItem.AUTHOR).toString().equals(Constants.RSS_OUTBREAK))
+				eListIterator.remove();
 		}
 		return eList;
 	}
@@ -108,7 +109,7 @@ public class AlertsCheckService extends Service {
 			if (newItem.get(RssItem.AUTHOR).toString().equals(Constants.RSS_ALERT)) {
 				for (int i = 0; i < oldList.size(); i++) {
 					HashMap<String, Object> oldItem = oldList.get(i);
-					if (oldItem.get(RssItem.AUTHOR).toString().endsWith(Constants.RSS_ALERT)) {
+					if (oldItem.get(RssItem.AUTHOR).toString().equals(Constants.RSS_ALERT)) {
 						if (newItem.get(EventElement.EVENT_REWARD).toString().equals(oldItem.get(EventElement.EVENT_REWARD))) {
 							same = true;
 							break;
@@ -117,16 +118,17 @@ public class AlertsCheckService extends Service {
 				}
 
 			}
-			if (same != true)
+			if (same != false){
 				alertsNum++;
-			same = false;
+				same = false;				
+			}
 		}
 		for (int j = 0; j < oldList.size(); j++) {
 			HashMap<String, Object> newItem = newList.get(j);
 			if (newItem.get(RssItem.AUTHOR).toString().equals(Constants.RSS_INVASION)) {
 				for (int i = 0; i < oldList.size(); i++) {
 					HashMap<String, Object> oldItem = oldList.get(i);
-					if (oldItem.get(RssItem.AUTHOR).toString().endsWith(Constants.RSS_INVASION)) {
+					if (oldItem.get(RssItem.AUTHOR).toString().equals(Constants.RSS_INVASION)) {
 						if (newItem.get(EventElement.EVENT_REWARD).toString().equals(oldItem.get(EventElement.EVENT_REWARD))) {
 							same = true;
 							break;
@@ -135,9 +137,10 @@ public class AlertsCheckService extends Service {
 				}
 
 			}
-			if (same != true)
+			if (same != true){
 				invasions++;
-			same = false;
+				same = false;				
+			}
 		}
 		if (alertsNum == 0 && invasions == 0) {
 			setMessageInfo(null);

@@ -1,11 +1,11 @@
 # WarframeAlerts
-# warframe alerts on android phone
+## warframe alerts on android phone
 
 It loads warframe alerts information to your phone with three warframe platforms (PC, PS4, XBOX ONE).
 In this app, i use simple UI to display warframe infomation:<br>
->>red items is alerts,<br>
->>blue items is invasions,<br>
->>grey items is outbreaks.<br>
+&nbsp;&nbsp;red items is alerts,<br>
+&nbsp;&nbsp;blue items is invasions,<br>
+&nbsp;&nbsp;grey items is outbreaks.<br>
   
 
 ![screenshot](./Screenshot_persional.cheneyjin.warframealerts.jpg)

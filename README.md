@@ -13,4 +13,6 @@ In this app, i use simple UI to display warframe infomation:
 
 This project uses Open source https://github.com/erikwt/PullToRefresh-ListView
 You can pull-down to refresh the alerts information.
-                                                                      -------CheneyJin<cheneyjin@outlook.com>
+                                                                      -------CheneyJin <cheneyjin@outlook.com>
+                                                                      
+https://github.com/Cheney-Jin/WarframeAlerts

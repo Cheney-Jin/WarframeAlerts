@@ -7,11 +7,10 @@ In this app, i use simple UI to display warframe infomation:
   blue items is invasions,
   grey items is outbreaks.
   
-This project uses Open source https://github.com/erikwt/PullToRefresh-ListView
-
 
 ![screenshot](./Screenshot_persional.cheneyjin.warframealerts.jpg)
 
 
+This project uses Open source https://github.com/erikwt/PullToRefresh-ListView
 You can pull-down to refresh the alerts information.
                                                                       -------CheneyJin<cheneyjin@outlook.com>

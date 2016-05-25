@@ -149,8 +149,8 @@ public class WFAlertsMainActivity extends Activity {
 	void StartACService() {
 		if (acService == false) {
 			acService = true;
-			//serviceIntent = new Intent(this, AlertsCheckService.class);
-			//serviceIntent.setAction("persional.cheneyjin.warframealerts.inform.AlertsCheckService");
+			// serviceIntent = new Intent(this, AlertsCheckService.class);
+			// serviceIntent.setAction("persional.cheneyjin.warframealerts.inform.AlertsCheckService");
 			PollingUtils.startPollingService(this, 5, AlertsCheckService.class, AlertsCheckService.ACTION);
 		}
 	}
@@ -177,17 +177,17 @@ public class WFAlertsMainActivity extends Activity {
 			if (id == R.id.ps4_alerts_select) eventsUtils.savePlatformType(Constants.WARFRAME_ALERTS_PLATFORM_PS4);
 			if (id == R.id.pc_alerts_select) eventsUtils.savePlatformType(Constants.WARFRAME_ALERTS_PLATFORM_PC);
 			if (id == R.id.xbox_alerts_select) eventsUtils.savePlatformType(Constants.WARFRAME_ALERTS_PLATFORM_XBOX);
-			afterSavePlatformType();
+			setAfterSave();
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void afterSavePlatformType() {
+	private void setAfterSave() {
 		isOptionChanged = true;
 		// ACService should define ServiceStop function in AlertsCheckService.
-		// Then the follow boolean elem will be instead of ServiceStop()
+		// Then the follow boolean elems will be instead of ServiceStop()
 		acService = false;
-
+		//Constants.RSS_PLATFORM = eventsUtils.getPlatformType();
 		Toast.makeText(WFAlertsMainActivity.this, Constants.PLEASE_REFRESH, Toast.LENGTH_LONG).show();
 	}
 

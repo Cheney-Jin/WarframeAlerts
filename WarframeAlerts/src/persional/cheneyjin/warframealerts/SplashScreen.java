@@ -20,7 +20,7 @@ public class SplashScreen extends Activity {
 			public void run() {
 				startActivity(new Intent(SplashScreen.this, WFAlertsMainActivity.class));
 			}
-		}, 800L);
+		}, 850L);
 	}
 
 	@Override
@@ -28,4 +28,5 @@ public class SplashScreen extends Activity {
 		super.onConfigurationChanged(newConfig);
 		setContentView(R.layout.splash_screen);
 	}
+
 }

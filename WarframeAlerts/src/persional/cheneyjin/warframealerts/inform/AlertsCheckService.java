@@ -22,6 +22,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 
 public class AlertsCheckService extends Service {
 	public static final String ACTION = "persional.cheneyjin.warframealerts.inform.AlertsCheckService";
@@ -70,6 +71,7 @@ public class AlertsCheckService extends Service {
 	class PollingThread extends Thread {
 		@Override
 		public void run() {
+			Log.i("START LOADING!", Constants.RSS_PLATFORM);
 			RssFeedSAXParser rssFAXPer = new RssFeedSAXParser();
 			ArrayList<HashMap<String, Object>> newAlertsList = new ArrayList<HashMap<String, Object>>();
 			try {
@@ -85,7 +87,6 @@ public class AlertsCheckService extends Service {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 		}
 	}
 
@@ -100,7 +101,7 @@ public class AlertsCheckService extends Service {
 	}
 
 	private void equalsAlerts(ArrayList<HashMap<String, Object>> newList) {
-		int alertsNum = 0, invasions = 0;
+		int alerts = 0, invasions = 0;
 		ArrayList<HashMap<String, Object>> oldList = new ArrayList<HashMap<String, Object>>();
 		oldList.addAll(removeOutbreak(WFAlertsMainActivity.rssItemsList));
 		boolean same = false;
@@ -116,11 +117,10 @@ public class AlertsCheckService extends Service {
 						}
 					}
 				}
-
-			}
-			if (same != false){
-				alertsNum++;
-				same = false;				
+				if (same != false) {
+					alerts++;
+					same = false;
+				}
 			}
 		}
 		for (int j = 0; j < oldList.size(); j++) {
@@ -135,17 +135,17 @@ public class AlertsCheckService extends Service {
 						}
 					}
 				}
+				if (same != true) {
+					invasions++;
+					same = false;
+				}
 
 			}
-			if (same != true){
-				invasions++;
-				same = false;				
-			}
 		}
-		if (alertsNum == 0 && invasions == 0) {
+		if (alerts == 0 && invasions == 0) {
 			setMessageInfo(null);
 		} else {
-			setMessageInfo("News: " + alertsNum + "Alert(s)  " + invasions + "invasion(s)");
+			setMessageInfo("News: " + alerts + "Alert(s)  " + invasions + "invasion(s)");
 		}
 	}
 

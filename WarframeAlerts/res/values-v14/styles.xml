@@ -18,7 +18,7 @@
 
     <style name="AcBar_titleTextStyle">
         <item name="android:textColor">#FFFFFF</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">19sp</item>
     </style>
 
 </resources>

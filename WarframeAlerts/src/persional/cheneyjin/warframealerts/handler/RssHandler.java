@@ -19,7 +19,6 @@ public class RssHandler extends DefaultHandler {
 	private StringBuilder textBuilder;
 	private int currentstate = 0;
 	private NowDateTime ndf;
-	private String formatExpiry;
 	private String itemValue;
 	private final int ITEM_TITLE = 1;
 	private final int ITEM_AUTHOR = 2;
@@ -58,8 +57,8 @@ public class RssHandler extends DefaultHandler {
 	}
 
 	@Override
-	public void startElement(String uri, String localName, 
-			String qName, Attributes attributes) throws SAXException {
+	public void startElement(String uri, String localName, String qName, 
+			Attributes attributes) throws SAXException {
 		super.startElement(uri, localName, qName, attributes);
 		textBuilder.delete(0, textBuilder.length());
 		if ("item".equals(qName)) {
@@ -105,9 +104,7 @@ public class RssHandler extends DefaultHandler {
 			break;
 		case ITEM_WFEXPIRY:
 			try {
-				formatExpiry = ndf.formatExpiry(itemValue);
-				ndf.setExpiryDate(formatExpiry);
-				rssItem.setFormat_expiry(formatExpiry);
+				ndf.formatExpiry(itemValue);
 				rssItem.setItem_wf_expiry(ndf.timeDiff());
 			} catch (ParseException e) {
 				e.printStackTrace();

@@ -8,16 +8,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import persional.cheneyjin.warframealerts.handler.RssFeed;
-import persional.cheneyjin.warframealerts.http.RssFeedSAXParser;
-import persional.cheneyjin.warframealerts.inform.AlertsCheckService;
-import persional.cheneyjin.warframealerts.inform.PollingUtils;
-import persional.cheneyjin.warframealerts.list.PullToRefreshListView;
-import persional.cheneyjin.warframealerts.list.PullToRefreshListView.OnRefreshListener;
-import persional.cheneyjin.warframealerts.list.PullToRefreshListViewAdapter;
-import persional.cheneyjin.warframealerts.list.PullToRefreshListViewAdapter.ViewHolder;
-import persional.cheneyjin.warframealerts.utils.Constants;
-import persional.cheneyjin.warframealerts.utils.EventsUtils;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -32,6 +22,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
+import persional.cheneyjin.warframealerts.handler.RssFeed;
+import persional.cheneyjin.warframealerts.http.RssFeedSAXParser;
+import persional.cheneyjin.warframealerts.inform.AlertsCheckService;
+import persional.cheneyjin.warframealerts.inform.PollingUtils;
+import persional.cheneyjin.warframealerts.list.PullToRefreshListView;
+import persional.cheneyjin.warframealerts.list.PullToRefreshListView.OnRefreshListener;
+import persional.cheneyjin.warframealerts.list.PullToRefreshListViewAdapter;
+import persional.cheneyjin.warframealerts.list.PullToRefreshListViewAdapter.ViewHolder;
+import persional.cheneyjin.warframealerts.utils.Constants;
+import persional.cheneyjin.warframealerts.utils.EventsUtils;
+import persional.cheneyjin.warframealerts.utils.NetworkState;
 
 /**
  * @author CheneyJin E-mail:cheneyjin@outlook.com
@@ -42,17 +43,17 @@ public class WFAlertsMainActivity extends Activity {
 	private EventsUtils eventsUtils;
 	private PullToRefreshListView eventsListView;
 	private PullToRefreshListViewAdapter ptrAdapter;
-	public static ArrayList<HashMap<String, Object>> rssItemsList;
 	private RssFeedSAXParser rssFAXPer;
 	private Intent serviceIntent;
 	private boolean isOptionChanged = false;
-	private boolean ptrDisable = false;
+	private boolean ptrisable = false;
 	private boolean acService = false;
+	public static ArrayList<HashMap<String, Object>> rssItemsList;
 
 	private void init() {
 		eventsUtils = new EventsUtils(this);
 		Constants.RSS_PLATFORM = eventsUtils.getPlatformType();
-		setTitle("  WarframeAlerts - " + Constants.RSS_PLATFORM);
+		setAppTitle();
 		rssFAXPer = new RssFeedSAXParser();
 		lRssAsyncTask = new LoadRssAsyncTask();
 		lRssAsyncTask.execute(1100);
@@ -75,7 +76,7 @@ public class WFAlertsMainActivity extends Activity {
 				eventsListView.postDelayed(new Runnable() {
 					@Override
 					public void run() {
-						if (ptrDisable != true) {
+						if (ptrisable != true) {
 							lRssAsyncTask = new LoadRssAsyncTask();
 							lRssAsyncTask.execute(1150);
 						}
@@ -99,17 +100,22 @@ public class WFAlertsMainActivity extends Activity {
 		registerForContextMenu(eventsListView);
 	}
 
+	private void setAppTitle(){
+		if(NetworkState.isNetworkAvailable(this.getApplicationContext())){
+			setTitle("  WarframeAlerts - " + Constants.RSS_PLATFORM);
+		}else{
+			setTitle("  Network error / Rss error !");
+		}
+	}
+	
 	class LoadRssAsyncTask extends AsyncTask<Object, Object, Object> {
 
 		private RssFeed rssFeed;
 
 		@Override
 		protected Object doInBackground(Object... params) {
-			ptrDisable = true;
-			if (isOptionChanged != false) {
-				invalidateOptionsMenu();
-				Constants.RSS_PLATFORM = eventsUtils.getPlatformType();
-			}
+			ptrisable = true;
+			if (isOptionChanged != false) invalidateOptionsMenu();
 			try {
 				rssFeed = rssFAXPer.getFeed(Constants.getRssUrl(Constants.RSS_PLATFORM));
 				rssItemsList = rssFeed.getAll();
@@ -128,19 +134,19 @@ public class WFAlertsMainActivity extends Activity {
 		protected void onPostExecute(Object result) {
 			super.onPostExecute(result);
 			if (rssFeed == null) {
-				setTitle("  Network error / Rss error !");
+				setAppTitle();
 			} else if (rssFeed != null && isOptionChanged != false) {
-				setTitle("  WarframeAlerts - " + Constants.RSS_PLATFORM);
+				setAppTitle();
 				isOptionChanged = false;
 			}
 		}
-
+		
 		@Override
 		protected void onProgressUpdate(Object... values) {
 			super.onProgressUpdate(values);
 			ptrAdapter.loadData(rssItemsList);
 			eventsListView.onRefreshComplete();
-			ptrDisable = false;
+			ptrisable = false;
 			// START CHECK_RSS_UPDATE SERVICE
 			StartACService();
 		}

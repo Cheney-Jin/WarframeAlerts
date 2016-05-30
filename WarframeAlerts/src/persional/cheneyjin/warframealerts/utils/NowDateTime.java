@@ -47,15 +47,14 @@ public class NowDateTime {
 			return diffMinutes / 60 + "h";
 		else if (diffMinutes >= 1440)
 			return diffMinutes / 1440 + "d";
-		else
-			if(diffMinutes<=0) return "Hurry!";
-			return diffMinutes + "m";
+		else if (diffMinutes <= 0)
+			return "Hurry!";
+		return diffMinutes + "m";
 	}
-	
+
 	enum Months {
-		Jan("Jan", "01"), Feb("Feb", "02"), Mar("Mar", "03"), Apr("Apr", "04"), May("May", "05"), 
-		Jun("Jun", "06"), Jul("Jul", "07"), Aug("Aug", "08"), Sep("Sep", "09"), Oct("Oct", "10"), 
-		Nov("Nov", "11"), Dec("Dec", "12");
+		Jan("Jan", "01"), Feb("Feb", "02"), Mar("Mar", "03"), Apr("Apr", "04"), May("May", "05"), Jun("Jun", "06"), Jul("Jul", "07"), Aug("Aug", "08"), Sep("Sep", "09"), Oct("Oct", "10"), Nov("Nov",
+				"11"), Dec("Dec", "12");
 
 		private String month;
 		private String index;
@@ -81,7 +80,7 @@ public class NowDateTime {
 			this.index = index;
 		}
 	}
-	
+
 	public String getExpiryDate() {
 		return expiryDate;
 	}

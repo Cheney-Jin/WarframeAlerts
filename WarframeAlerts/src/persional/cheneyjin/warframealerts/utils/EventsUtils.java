@@ -20,7 +20,7 @@ public class EventsUtils {
 			editor = warframePlatformType.edit();
 			editor.putString("PlatformType", platformType);
 			editor.commit();
-			Constants.RSS_PLATFORM = platformType;
+			Constants.setPlatformTypeCache(platformType);
 		} catch (Exception e) {
 			Log.i("SAVE_ERROR", "<!>PlatformType:" + platformType + " <!>");
 		}

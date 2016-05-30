@@ -32,7 +32,6 @@ import persional.cheneyjin.warframealerts.list.PullToRefreshListViewAdapter;
 import persional.cheneyjin.warframealerts.list.PullToRefreshListViewAdapter.ViewHolder;
 import persional.cheneyjin.warframealerts.utils.Constants;
 import persional.cheneyjin.warframealerts.utils.EventsUtils;
-import persional.cheneyjin.warframealerts.utils.NetworkState;
 
 /**
  * @author CheneyJin E-mail:cheneyjin@outlook.com
@@ -52,12 +51,13 @@ public class WFAlertsMainActivity extends Activity {
 
 	private void init() {
 		eventsUtils = new EventsUtils(this);
-		Constants.RSS_PLATFORM = eventsUtils.getPlatformType();
-		setAppTitle();
+		Constants.setPlatformTypeCache(eventsUtils.getPlatformType());
+		setAppTitle(true);
+		showListView();
+
 		rssFAXPer = new RssFeedSAXParser();
 		lRssAsyncTask = new LoadRssAsyncTask();
 		lRssAsyncTask.execute(1100);
-		showListView();
 	}
 
 	@Override
@@ -100,14 +100,20 @@ public class WFAlertsMainActivity extends Activity {
 		registerForContextMenu(eventsListView);
 	}
 
-	private void setAppTitle(){
-		if(NetworkState.isNetworkAvailable(this.getApplicationContext())){
+	/*
+	 * private void setAppTitle(){ if(NetworkState.isNetworkAvailable(this)){
+	 * setTitle("  WarframeAlerts - " + Constants.RSS_PLATFORM); }else{
+	 * setTitle("  Network error / Rss error !"); } }
+	 */
+
+	private void setAppTitle(boolean networkState) {
+		if (networkState) {
 			setTitle("  WarframeAlerts - " + Constants.RSS_PLATFORM);
-		}else{
+		} else {
 			setTitle("  Network error / Rss error !");
 		}
 	}
-	
+
 	class LoadRssAsyncTask extends AsyncTask<Object, Object, Object> {
 
 		private RssFeed rssFeed;
@@ -115,7 +121,8 @@ public class WFAlertsMainActivity extends Activity {
 		@Override
 		protected Object doInBackground(Object... params) {
 			ptrisable = true;
-			if (isOptionChanged != false) invalidateOptionsMenu();
+			if (isOptionChanged != false)
+				invalidateOptionsMenu();
 			try {
 				rssFeed = rssFAXPer.getFeed(Constants.getRssUrl(Constants.RSS_PLATFORM));
 				rssItemsList = rssFeed.getAll();
@@ -134,13 +141,13 @@ public class WFAlertsMainActivity extends Activity {
 		protected void onPostExecute(Object result) {
 			super.onPostExecute(result);
 			if (rssFeed == null) {
-				setAppTitle();
+				setAppTitle(false);
 			} else if (rssFeed != null && isOptionChanged != false) {
-				setAppTitle();
+				setAppTitle(true);
 				isOptionChanged = false;
 			}
 		}
-		
+
 		@Override
 		protected void onProgressUpdate(Object... values) {
 			super.onProgressUpdate(values);
@@ -166,9 +173,12 @@ public class WFAlertsMainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.wfalerts_main, menu);
 		int menuItemBySelected = 0;
-		if (Constants.RSS_PLATFORM.equals(Constants.WARFRAME_ALERTS_PLATFORM_PS4)) menuItemBySelected = R.id.ps4_alerts_select;
-		else if (Constants.RSS_PLATFORM.equals(Constants.WARFRAME_ALERTS_PLATFORM_PC)) menuItemBySelected = R.id.pc_alerts_select;
-		else if (Constants.RSS_PLATFORM.equals(Constants.WARFRAME_ALERTS_PLATFORM_XBOX)) menuItemBySelected = R.id.xbox_alerts_select;
+		if (Constants.RSS_PLATFORM.equals(Constants.WARFRAME_ALERTS_PLATFORM_PS4))
+			menuItemBySelected = R.id.ps4_alerts_select;
+		else if (Constants.RSS_PLATFORM.equals(Constants.WARFRAME_ALERTS_PLATFORM_PC))
+			menuItemBySelected = R.id.pc_alerts_select;
+		else if (Constants.RSS_PLATFORM.equals(Constants.WARFRAME_ALERTS_PLATFORM_XBOX))
+			menuItemBySelected = R.id.xbox_alerts_select;
 		SpannableString beUsedItem = new SpannableString(Constants.RSS_PLATFORM + " Alerts");
 		beUsedItem.setSpan(new ForegroundColorSpan(Color.RED), 0, beUsedItem.length(), 0);
 		menu.findItem(menuItemBySelected).setTitle(beUsedItem);
@@ -178,11 +188,15 @@ public class WFAlertsMainActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
-		if (id == R.id.contact_me) Toast.makeText(WFAlertsMainActivity.this, Constants.CONTACT_ME, Toast.LENGTH_LONG).show();
+		if (id == R.id.contact_me)
+			Toast.makeText(WFAlertsMainActivity.this, Constants.CONTACT_ME, Toast.LENGTH_LONG).show();
 		else {
-			if (id == R.id.ps4_alerts_select) eventsUtils.savePlatformType(Constants.WARFRAME_ALERTS_PLATFORM_PS4);
-			if (id == R.id.pc_alerts_select) eventsUtils.savePlatformType(Constants.WARFRAME_ALERTS_PLATFORM_PC);
-			if (id == R.id.xbox_alerts_select) eventsUtils.savePlatformType(Constants.WARFRAME_ALERTS_PLATFORM_XBOX);
+			if (id == R.id.ps4_alerts_select)
+				eventsUtils.savePlatformType(Constants.WARFRAME_ALERTS_PLATFORM_PS4);
+			if (id == R.id.pc_alerts_select)
+				eventsUtils.savePlatformType(Constants.WARFRAME_ALERTS_PLATFORM_PC);
+			if (id == R.id.xbox_alerts_select)
+				eventsUtils.savePlatformType(Constants.WARFRAME_ALERTS_PLATFORM_XBOX);
 			setAfterSave();
 		}
 		return super.onOptionsItemSelected(item);
@@ -193,7 +207,7 @@ public class WFAlertsMainActivity extends Activity {
 		// ACService should define ServiceStop function in AlertsCheckService.
 		// Then the follow boolean elems will be instead of ServiceStop()
 		acService = false;
-		//Constants.RSS_PLATFORM = eventsUtils.getPlatformType();
+		// Constants.RSS_PLATFORM = eventsUtils.getPlatformType();
 		Toast.makeText(WFAlertsMainActivity.this, Constants.PLEASE_REFRESH, Toast.LENGTH_LONG).show();
 	}
 

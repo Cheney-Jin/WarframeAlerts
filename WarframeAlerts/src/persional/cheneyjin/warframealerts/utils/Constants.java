@@ -43,6 +43,10 @@ public class Constants {
 
 	public static String RSS_PLATFORM = "";
 
+	public static void setPlatformTypeCache(String platformType) {
+		Constants.RSS_PLATFORM = platformType;
+	}
+
 	public static String getRssUrl(String alertsType) {
 		if (alertsType.equals(Constants.WARFRAME_ALERTS_PLATFORM_PS4))
 			return Constants.WARFRAME_RSS_PS4_URL;

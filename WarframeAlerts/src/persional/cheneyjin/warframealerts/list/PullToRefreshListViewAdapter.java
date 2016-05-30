@@ -68,10 +68,14 @@ public class PullToRefreshListViewAdapter extends android.widget.BaseAdapter {
 	}
 
 	public int getEventsType(String itemAuthor) {
-		if ("Alert".equals(itemAuthor)) return Constants.VIEWTYPE_ALERT;
-		else if ("Invasion".equals(itemAuthor)) return Constants.VIEWTYPE_INVASION;
-		else if ("Outbreak".equals(itemAuthor)) return Constants.VIEWTYPE_OUTBREAK;
-		else return Constants.VIEWTYPE_ERROR;
+		if ("Alert".equals(itemAuthor))
+			return Constants.VIEWTYPE_ALERT;
+		else if ("Invasion".equals(itemAuthor))
+			return Constants.VIEWTYPE_INVASION;
+		else if ("Outbreak".equals(itemAuthor))
+			return Constants.VIEWTYPE_OUTBREAK;
+		else
+			return Constants.VIEWTYPE_ERROR;
 	}
 
 	@SuppressLint("InflateParams")
